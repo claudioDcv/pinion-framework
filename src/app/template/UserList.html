@@ -1,0 +1,8 @@
+My skills:
+<%if(this.showSkills) {%>
+    <%for(var index in this.skills) {%>
+    <a href="#"><%this.skills[index]%></a>
+    <%}%>
+<%} else {%>
+    <p>none</p>
+<%}%>
