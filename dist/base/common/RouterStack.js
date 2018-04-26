@@ -15,7 +15,9 @@ class RouterStack {
         // Exclude ico
         if (path != '/favicon.ico') {
             const route = this.routerList[path];
+            console.log(route);
             if (route == undefined) {
+                console.log('Error');
                 class Error {
                     constructor() {
                         this.code = 500;
@@ -25,9 +27,12 @@ class RouterStack {
                 const error = new Error;
                 const defaultController = new Controller_1.default({ path, request, response, error: Error });
                 defaultController.compile();
+                return;
             }
-            const controller = route.makeController({ path, request, response });
-            controller.compile();
+            else {
+                const controller = route.makeController({ path, request, response });
+                controller.compile();
+            }
         }
     }
 }

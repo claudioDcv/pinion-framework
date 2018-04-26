@@ -18,8 +18,12 @@ class RouterStack {
         if (path != '/favicon.ico') {
             const route : Route = this.routerList[path]
 
-            if (route == undefined) {
+            console.log(route);
+            
 
+            if (route == undefined) {
+                console.log('Error');
+                
                 class Error {
                     public code = 500
                     public message = 'Error de servidor'
@@ -28,10 +32,12 @@ class RouterStack {
                 const error = new Error
 
                 const defaultController = new Controller({ path, request, response, error: Error })
-                defaultController.compile()  
-            }
-            const controller : Controller = route.makeController({ path, request, response })
-            controller.compile()
+                defaultController.compile()
+                return;
+            } else {
+                const controller : Controller = route.makeController({ path, request, response })
+                controller.compile()
+            }        
         }
     }
 }
