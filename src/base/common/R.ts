@@ -35,9 +35,7 @@ class R {
             }
 
             out.reg += regex
-            out
-                .name
-                .push({name, type})
+            out.name.push({name, type})
             return e
         })
 
