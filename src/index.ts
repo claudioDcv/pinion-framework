@@ -1,7 +1,9 @@
-import { base } from './base'
+import {base} from './base'
 import UserController from './app/controller/UserController';
 import UserCreate from './app/controller/UserCreate';
+import IController from './base/controller/IController';
 
+/* ******* */
 
 const app = new base.App(3333)
 
