@@ -4,8 +4,13 @@ class R {
 
     register(path : string, controller : Function) {
 
-        const arrT = path.split('/').filter(e => e !== '')
-        let out = { name: [], reg: '' }
+        const arrT = path
+            .split('/')
+            .filter(e => e !== '')
+        let out = {
+            name: [],
+            reg: ''
+        }
         const arrReg = arrT.map(e => {
 
             let name : any = '|'
@@ -29,18 +34,19 @@ class R {
                 regex = '\/(?=.*[a-z|A-Z])[a-zAZ0-9_\-]+'
             }
 
-
             out.reg += regex
-            out.name.push({
-                name,
-                type,
-            })
+            out
+                .name
+                .push({name, type})
             return e
         })
 
         this.list = {
             ...this.list,
-            [`^${out.reg}$`] : { controller, name: out.name }
+            [`^${out.reg}$`]: {
+                controller,
+                name: out.name
+            }
         }
     }
 
@@ -49,30 +55,32 @@ class R {
         return new Promise((resolve, reject) => {
             let controller : Function = null
             let params = {}
-            Object.keys(this.list).forEach((e, i) => {
-                const reg = new RegExp(e)
-                // console.log(reg);
-                
-                // Evaluar url con expresión regular
-                if(reg.test(url)) {
-                    // Create attr
-                    const urlPart = url.split('/').filter(e => e != '')
-                    urlPart.forEach((el, i) => {
-                        const valueRoute = this.list[e].name[i]
-                        if(valueRoute.type !== 'part') {
-                            params = {
-                                ...params,
-                                [valueRoute.name]: el
+            Object
+                .keys(this.list)
+                .forEach((e, i) => {
+                    const reg = new RegExp(e)
+                    // console.log(reg); Evaluar url con expresión regular
+                    if (reg.test(url)) {
+                        // Create attr
+                        const urlPart = url
+                            .split('/')
+                            .filter(e => e != '')
+                        urlPart.forEach((el, i) => {
+                            const valueRoute = this.list[e].name[i]
+                            if (valueRoute.type !== 'part') {
+                                params = {
+                                    ...params,
+                                    [valueRoute.name]: el
+                                }
                             }
-                        }
-                        
-                    });
-                    //asignar controller
-                    controller = this.list[e].controller
-                }
-            })
-            if(controller) {
-                resolve({ controller, params })
+
+                        });
+                        //asignar controller
+                        controller = this.list[e].controller
+                    }
+                })
+            if (controller) {
+                resolve({controller, params})
             } else {
                 reject(`404: [${url}] no existe`);
             }
