@@ -7,9 +7,9 @@ import IController from './base/controller/IController';
 
 const app = new base.App(3333)
 
-app.registerRoute('/user', UserController)
+app.registerRoute('/user/<id:int>', UserController)
 // app.registerRoute('/user/{id}', UserController)
 
-app.registerRoute('/user-create', UserCreate)
+app.registerRoute('/user/<name:string>/<lastname:string>', UserCreate)
 
 app.start()

@@ -12,12 +12,12 @@ class UserCreate extends Controller {
         super(props)
     }
 
-    protected get(resolve : Function, reject : Function): void {
+    protected get = (resolve : Function, reject : Function): void => {
         User().sync({force: false}).then(() => {
             // Table created
             User().create({
-                firstName: 'Esteban',
-                lastName: 'Rojas'
+                firstName: this.params.name,
+                lastName: this.params.lasName,
             })
             .then(user => resolve(user))
         });

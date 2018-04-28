@@ -3,6 +3,7 @@ class Props {
     public request
     public response
     public error : any
+    public params : Object
 }
 
 export default Props

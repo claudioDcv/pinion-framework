@@ -1,8 +1,10 @@
+import IController from "../controller/IController";
+
 class R {
 
     private list : any = {}
 
-    register(path : string, controller : Function) {
+    register(path : string, controller : IController) {
 
         const arrT = path
             .split('/')
@@ -39,20 +41,30 @@ class R {
             return e
         })
 
-        this.list = {
-            ...this.list,
-            [`^${out.reg}$`]: {
-                controller,
-                name: out.name
+        
+        if(!Object.keys(this.list).find(e => this.list[e].path === path )) {
+
+            this.list = {
+                ...this.list,
+                [`^${out.reg}$`]: {
+                    controller,
+                    name: out.name,
+                    path: path,
+                }
             }
         }
     }
 
-    match(url) {
+    match(url, request, response) {
 
         return new Promise((resolve, reject) => {
             let controller : Function = null
-            let params = {}
+            let params = {
+                request,
+                response,
+                path: url,
+                q: {}
+            }
             Object
                 .keys(this.list)
                 .forEach((e, i) => {
@@ -68,7 +80,10 @@ class R {
                             if (valueRoute.type !== 'part') {
                                 params = {
                                     ...params,
-                                    [valueRoute.name]: el
+                                    q: {
+                                        ...params.q,
+                                        [valueRoute.name]: el,
+                                    }
                                 }
                             }
 

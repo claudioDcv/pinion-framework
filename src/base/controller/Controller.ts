@@ -5,19 +5,24 @@ import IController from "./IController";
 class Controller implements IController{
 
     public model = {}
-    public html = ''
+    public html : string = ''
     public path
     public request
     public response
     public error
+    public params : any = {}
     public contentType : string = 'application/json'
 
     public constructor(props : Props) {
+        console.log(props);
+        console.log('----------');
+        
         this.path = props.path
         this.request = props.request
         this.response = props.response
         this.error = props.error || false
-
+        this.params = props.params
+        
         this.response.writeHeader(200, { "Content-Type": this.contentType });  
     }
 
@@ -25,7 +30,7 @@ class Controller implements IController{
         resolve('No Implement (beforeGet)')
     }
 
-    protected get(resolve : Function, reject : Function) : void {
+    protected get = (resolve : Function, reject : Function) : void => {
         resolve('Not Implement (render)')
     }
 
